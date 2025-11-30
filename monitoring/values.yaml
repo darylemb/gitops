@@ -1,0 +1,9 @@
+kube-prometheus-stack:
+  grafana:
+    service:
+      type: NodePort
+      nodePorts:
+        http: 31000
+  prometheus:
+    service:
+      type: ClusterIP
