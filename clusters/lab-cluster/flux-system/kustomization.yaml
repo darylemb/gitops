@@ -7,3 +7,4 @@ resources:
 - trust-manager-kustomization.yaml
 - trust-manager-resources-kustomization.yaml
 - infrastructure-kustomization.yaml
+- argocd-kustomization.yaml
