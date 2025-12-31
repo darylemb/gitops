@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: backstage-postgres
+  namespace: flux-system
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: postgresql
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  targetNamespace: backstage
+  install:
+    createNamespace: true
+  values:
+    auth:
+      database: backstage_plugin_auth
+      username: backstage
+      existingSecret: "backstage-postgres-secret"
+      secretKeys:
+        adminPasswordKey: "postgres-password"
+    primary:
+      persistence:
+        enabled: false

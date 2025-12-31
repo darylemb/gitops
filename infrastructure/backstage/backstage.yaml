@@ -1,0 +1,34 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: backstage
+  namespace: flux-system
+spec:
+  interval: 1h
+  dependsOn:
+    - name: backstage-postgres
+  chart:
+    spec:
+      chart: backstage
+      sourceRef:
+        kind: HelmRepository
+        name: backstage
+  targetNamespace: backstage
+  values:
+    # Inyectamos Linkerd para seguridad mTLS
+    podAnnotations:
+      linkerd.io/inject: enabled
+    
+    backstage:
+      appConfig:
+        app:
+          baseUrl: http://localhost:3000
+        backend:
+          baseUrl: http://localhost:7007
+          database:
+            client: pg
+            connection:
+              host: backstage-postgres-postgresql.backstage.svc.cluster.local
+              port: 5432
+              user: backstage
+              password: "backstage_password"

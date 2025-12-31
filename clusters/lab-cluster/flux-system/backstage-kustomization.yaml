@@ -1,15 +1,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: argocd
+  name: backstage
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infrastructure
+    - name: linkerd
   interval: 1h
-  path: ./gitops-engines/argocd
+  path: ./infrastructure/backstage
   prune: true
   wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

@@ -6,5 +6,5 @@ resources:
 - cert-manager-kustomization.yaml
 - trust-manager-kustomization.yaml
 - trust-manager-resources-kustomization.yaml
-- infrastructure-kustomization.yaml
-- argocd-kustomization.yaml
+- linkerd-kustomization.yaml
+- backstage-kustomization.yaml
