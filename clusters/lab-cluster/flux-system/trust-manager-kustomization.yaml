@@ -7,7 +7,7 @@ spec:
   dependsOn:
     - name: cert-manager
   interval: 1h
-  path: ./infrastructure/trust-manager
+  path: ./certificates/trust-manager
   prune: true
   wait: true
   sourceRef:

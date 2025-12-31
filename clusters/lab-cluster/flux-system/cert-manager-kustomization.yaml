@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./infrastructure/cert-manager
+  path: ./certificates/cert-manager
   prune: true
   wait: true
   sourceRef:

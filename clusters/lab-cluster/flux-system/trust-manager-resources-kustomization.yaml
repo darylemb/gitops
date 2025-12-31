@@ -7,7 +7,7 @@ spec:
   dependsOn:
     - name: trust-manager
   interval: 1h
-  path: ./infrastructure/resources/trust-manager/linkerd
+  path: ./certificates/resources/trust-manager
   prune: true
   wait: true
   sourceRef:
