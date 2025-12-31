@@ -26,6 +26,36 @@ spec:
         name: linkerd
   interval: 1h
 ---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: linkerd-self-signed
+  namespace: linkerd
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: linkerd-trust-anchor
+  namespace: linkerd
+spec:
+  isCA: true
+  commonName: root.linkerd.cluster.local
+  secretName: linkerd-identity-trust-root
+  issuerRef:
+    name: linkerd-self-signed
+    kind: Issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: linkerd-identity-issuer
+  namespace: linkerd
+spec:
+  ca:
+    secretName: linkerd-identity-trust-root
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -33,10 +63,17 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: linkerd
+  dependsOn:
+    - name: linkerd-crds
+  interval: 1h
   chart:
     spec:
       chart: linkerd-control-plane
       sourceRef:
         kind: HelmRepository
         name: linkerd
-  interval: 1h
+  values:
+    identity:
+      externalCA: true
+      issuer:
+        scheme: kubernetes.io/tls
