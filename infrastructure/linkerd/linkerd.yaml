@@ -10,7 +10,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://helm.linkerd.io/stable
+  url: https://helm.linkerd.io/edge
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -43,6 +43,9 @@ spec:
   isCA: true
   commonName: root.linkerd.cluster.local
   secretName: linkerd-identity-trust-root
+  privateKey:
+    algorithm: ECDSA
+    size: 256
   issuerRef:
     name: linkerd-self-signed
     kind: Issuer
@@ -66,8 +69,11 @@ metadata:
   namespace: linkerd
 spec:
   secretName: linkerd-identity-issuer
-  duration: 48h
+  duration: 2160h
   renewBefore: 24h
+  privateKey:
+    algorithm: ECDSA
+    size: 256
   issuerRef:
     name: linkerd-identity-issuer
     kind: Issuer
