@@ -8,3 +8,4 @@ resources:
 - trust-manager-resources-kustomization.yaml
 - linkerd-kustomization.yaml
 - backstage-kustomization.yaml
+- pihole-kustomization.yaml

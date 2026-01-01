@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pi-hole
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole
+  namespace: pi-hole
+  labels:
+    backstage.io/kubernetes-id: pi-hole
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+  template:
+    metadata:
+      labels:
+        app: pihole
+      annotations:
+        linkerd.io/inject: disabled 
+    spec:
+      containers:
+      - name: pihole
+        image: pihole/pihole:latest
+        env:
+          - name: TZ
+            value: "America/Mexico_City"
+          - name: FTLCONF_dns_listeningMode
+            value: "all"
+          - name: FTLCONF_webserver_api_password
+            valueFrom:
+              secretKeyRef:
+                name: pihole-secrets
+                key: password
+        ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 53
+            protocol: UDP
+            name: dns-udp
+          - containerPort: 53
+            protocol: TCP
+            name: dns-tcp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pihole-service
+  namespace: pi-hole
+spec:
+  selector:
+    app: pihole
+  type: LoadBalancer
+  externalIPs:
+    - 192.168.0.3
+  externalTrafficPolicy: Local
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+    - port: 53
+      protocol: UDP
+      targetPort: 53
+      name: dns-udp
+    - port: 53
+      protocol: TCP
+      targetPort: 53
+      name: dns-tcp
