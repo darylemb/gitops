@@ -15,9 +15,15 @@ spec:
         name: backstage
   targetNamespace: backstage
   values:
-    # Inyectamos Linkerd para seguridad mTLS
     podAnnotations:
       linkerd.io/inject: enabled
+    
+    extraEnvVars:
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: backstage-postgres-secret
+            key: password
     
     backstage:
       appConfig:
@@ -28,7 +34,7 @@ spec:
           database:
             client: pg
             connection:
-              host: backstage-postgres-postgresql.backstage.svc.cluster.local
+              host: backstage-backstage-postgres-postgresql.backstage.svc.cluster.local
               port: 5432
               user: backstage
-              password: "backstage_password"
+              password: ${POSTGRES_PASSWORD}
