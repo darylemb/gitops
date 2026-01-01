@@ -28,9 +28,12 @@ spec:
       extraEnvVars: *envVars
       appConfig:
         app:
-          baseUrl: http://localhost:3000
+          title: "Backstage Lab Cluster"
+          baseUrl: http://localhost:7007
         backend:
           baseUrl: http://localhost:7007
+          cors:
+            origin: http://localhost:7007
           database:
             client: pg
             connection:
