@@ -30,6 +30,9 @@ spec:
         app:
           title: "Backstage Lab Cluster"
           baseUrl: http://localhost:7007
+        auth:
+          providers:
+            guest: {}
         backend:
           baseUrl: http://localhost:7007
           cors:
