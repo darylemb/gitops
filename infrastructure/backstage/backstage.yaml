@@ -17,8 +17,7 @@ spec:
   values:
     podAnnotations:
       linkerd.io/inject: enabled
-    
-    extraEnvVars:
+    extraEnvVars: &envVars
       - name: POSTGRES_PASSWORD
         valueFrom:
           secretKeyRef:
@@ -26,6 +25,7 @@ spec:
             key: password
     
     backstage:
+      extraEnvVars: *envVars
       appConfig:
         app:
           baseUrl: http://localhost:3000
