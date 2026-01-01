@@ -21,7 +21,7 @@ spec:
       username: backstage
       existingSecret: "backstage-postgres-secret"
       secretKeys:
-        adminPasswordKey: "postgres-password"
+        adminPasswordKey: "password"
     primary:
       persistence:
         enabled: false
