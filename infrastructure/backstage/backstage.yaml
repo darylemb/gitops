@@ -47,7 +47,7 @@ spec:
                   resolvers:
                     - resolver: usernameMatchingUserEntityName
         backend:
-          baseUrl: http://localhost:7007/api
+          baseUrl: http://localhost:7007
           cors:
             origin: http://localhost:7007
           database:
