@@ -36,15 +36,18 @@ spec:
           title: "Backstage Lab Cluster"
           baseUrl: http://localhost:7007
         auth:
-          environment: development
+          environment: production
           providers:
             guest: {}
             github:
-              development:
+              production:
                 clientId: "Ov23liY3kcgE9UG9D28E"
                 clientSecret: ${GITHUB_CLIENT_SECRET}
+                signIn:
+                  resolvers:
+                    - resolver: usernameMatchingUserEntityName
         backend:
-          baseUrl: http://localhost:7007
+          baseUrl: http://localhost:7007/api
           cors:
             origin: http://localhost:7007
           database:
