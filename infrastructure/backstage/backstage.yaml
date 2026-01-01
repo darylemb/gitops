@@ -23,6 +23,11 @@ spec:
           secretKeyRef:
             name: backstage-postgres-secret
             key: password
+      - name: GITHUB_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: backstage-postgres-secret
+            key: github-client-secret
     
     backstage:
       extraEnvVars: *envVars
@@ -31,8 +36,13 @@ spec:
           title: "Backstage Lab Cluster"
           baseUrl: http://localhost:7007
         auth:
+          environment: development
           providers:
             guest: {}
+            github:
+              development:
+                clientId: "Ov23liY3kcgE9UG9D28E"
+                clientSecret: ${GITHUB_CLIENT_SECRET}
         backend:
           baseUrl: http://localhost:7007
           cors:
